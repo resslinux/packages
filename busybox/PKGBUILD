@@ -1,6 +1,6 @@
 pkgbase='busybox'
 pkgname=('busybox-doc' 'busybox')
-pkgver=1.28.0.r56.ge411cd071
+pkgver=1.28.0.r57.g8528d3d4f
 pkgrel=1
 pkgdesc='Size optimized toolbox of many common UNIX utilities'
 url='https://busybox.net/'
