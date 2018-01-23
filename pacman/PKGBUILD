@@ -1,0 +1,94 @@
+pkgbase='pacman'
+pkgname=('pacman-doc' 'pacman-dev' 'pacman')
+pkgver=5.0.1.r223.ga7dbe463
+pkgrel=1
+pkgdesc='A library-based package manager with dependency support'
+url='https://www.archlinux.org/pacman/'
+arch=('x86_64')
+license=('GPL')
+depends_doc=()
+depends_dev=('pacman')
+depends=('libcurl' 'libarchive' 'libressl-lib' 'busybox' 'pacman-mirrorlist')
+makedepends=('perl' 'pkg-config' 'automake' 'autoconf' 'asciidoc' 'libarchive' 'gettext' 'libtool')
+source=('git://git.archlinux.org/pacman.git'
+        'busybox.patch'
+        'ress.patch'
+        'ress_functions.sh'
+        'pacman.conf'
+        'makepkg.conf')
+sha256sums=('SKIP'
+            '4ed3d494886237e92eb13eefd0a9e55898305e41cb6f3c30535bf1c6bd0fa7c8'
+            '85f90cc7eb2a2df66f8907e2d4e078f957502b39a9b9bcdd531254a6a8fe39b9'
+            '73b454c8db40370411d322348be6ee3af29e54e8ee511b6a77d9fc2886692dfe'
+            '83bd34e8244139d997c5d20476716a73127d334d7b6c1d897ceb4d164bb848a9'
+            'bddfe59732d3bee28a78fb2be61d2340c4a58eada9d75cbe39d3a27833bd3901')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgbase}"
+  
+  patch -Np1 -i "${srcdir}/busybox.patch"
+  patch -Np1 -i "${srcdir}/ress.patch"
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  ./autogen.sh
+  
+  ./configure --prefix='/usr' \
+              --sysconfdir='/etc' \
+              --localstatedir='/var' \
+              --enable-doc \
+              --with-scriptlet-shell='/bin/sh' \
+              --with-ldconfig='/usr/bin/ldconfig'
+              
+  make
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+  
+  make DESTDIR="${tmpdir}" install
+}
+
+package_pacman-doc() {
+  package-doc
+}
+
+package_pacman-dev() {
+  package-dev
+}
+
+package_pacman() {
+  groups=('base' 'base-devel')
+  backup=('etc/pacman.conf'
+          'etc/makepkg.conf')
+  
+  package-base
+  
+  cd "${pkgbase}"
+  
+  # install Arch specific stuff
+  install -dm755 "${pkgdir}/etc"
+  install -m644 "${srcdir}/pacman.conf" "${pkgdir}/etc/"
+  install -m644 "${srcdir}/makepkg.conf" "${pkgdir}/etc/"
+
+  # put bash_completion in the right location
+  install -dm755 "${pkgdir}/usr/share/bash-completion/completions"
+  mv "${pkgdir}/etc/bash_completion.d/pacman" "${pkgdir}/usr/share/bash-completion/completions"
+  rmdir "${pkgdir}/etc/bash_completion.d"
+
+  for f in makepkg pacman-key; do
+    ln -s pacman "${pkgdir}/usr/share/bash-completion/completions/${f}"
+  done
+  
+  install -m644 "${srcdir}/ress_functions.sh" "${pkgdir}/usr/share/makepkg/"
+}
