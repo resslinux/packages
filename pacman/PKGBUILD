@@ -1,5 +1,7 @@
 pkgbase='pacman'
-pkgname=('pacman-doc' 'pacman-dev' 'pacman-zsh-completition' 'pacman-bash-completition' 'makepkg-bash-completion' 'makepkg' 'pacman')
+pkgname=('pacman-doc' 'pacman-dev' 'pacman-zsh-completition'
+         'pacman-bash-completition' 'makepkg-bash-completion'
+         'makepkg' 'pacman')
 pkgver=5.0.1.r223.ga7dbe463
 pkgrel=1
 pkgdesc='A library-based package manager with dependency support'
