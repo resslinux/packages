@@ -1,6 +1,6 @@
 --- a/scripts/makepkg.sh.in
 +++ b/scripts/makepkg.sh.in
-@@ -1609,6 +1609,7 @@
+@@ -1562,6 +1562,7 @@
  		create_package
  		create_debug_package
  	else

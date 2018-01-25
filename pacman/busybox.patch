@@ -1,6 +1,6 @@
 --- a/configure.ac
 +++ b/configure.ac
-@@ -338,11 +338,11 @@
+@@ -338,8 +338,8 @@
  GCC_VISIBILITY_CC
  
  # Host-dependant definitions
@@ -11,6 +11,3 @@
  INODECMD="stat -c '%i %n'"
  OWNERCMD="stat -c '%u:%g'"
  MODECMD="stat -c '%a'"
- STRIP_BINARIES="--strip-all"
- STRIP_SHARED="--strip-unneeded"
- STRIP_STATIC="--strip-debug"
