@@ -1,0 +1,54 @@
+pkgbase='f2fs-tools'
+pkgname=('f2fs-tools-doc' 'f2fs-tools-dev' 'libf2fs' 'f2fs-tools')
+pkgver=1.9.0.r39.gddc2d9b
+pkgrel=1
+pkgdesc='Tools for Flash-Friendly File System (F2FS)'
+url='https://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git'
+arch=('x86_64')
+license=('GPL2+')
+depends_doc=()
+depends_lib=('musl')
+depends_dev=('libf2fs')
+depends=('libf2fs')
+makedepends=('util-linux-dev' 'linux-headers' 'bsd-compat-headers')
+source=('git://git.kernel.org/pub/scm/linux/kernel/git/jaegeuk/f2fs-tools.git')
+sha256sums=('SKIP')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  ./autogen.sh
+  ./configure --prefix='/usr' \
+              --without-selinux \
+              --without-blkid
+  
+  make
+}
+
+package() {
+  cd "${pkgbase}"
+  
+  make DESTDIR="${tmpdir}" install
+}
+
+package_f2fs-tools-doc() {
+  package-doc
+}
+
+package_f2fs-tools-dev() {
+  package-dev
+}
+
+package_libf2fs() {
+  package-lib
+}
+
+package_f2fs-tools() {
+  package-base
+}
