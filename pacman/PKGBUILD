@@ -21,9 +21,9 @@ source=('git://git.archlinux.org/pacman.git'
 sha256sums=('SKIP'
             'e4695e89adbeaabb477736c1544c8412f0b6bd3a8750c12df2b5a20f89226091'
             '9818509443eefc192f19ec54c6f50f4fcb621fc417b71845f0eefefa98e90067'
-            '73b454c8db40370411d322348be6ee3af29e54e8ee511b6a77d9fc2886692dfe'
+            '90936859d059ce9e1b00d78748f7115c5df488beef1fd5364e408589ba5274fb'
             '83bd34e8244139d997c5d20476716a73127d334d7b6c1d897ceb4d164bb848a9'
-            'fef7c19fb0c5831023fb57fbb37e1c6d2252fee2250befcf6ea811a839151828')
+            '35a8c6b79ac4e4aa6676bb56c708e48682fb643472f67133efeef42671b8a4ba')
 
 pkgver() {
   cd "${pkgbase}"

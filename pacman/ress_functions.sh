@@ -38,6 +38,7 @@ package-dev() {
            usr/share/qt*/mkspecs			\
            usr/lib/qt*/mkspecs			\
            usr/lib/cmake				\
+           usr/lib/m4				\
            $(find . -name include -type d) 	\
            $(find $libdirs -name '*.[acho]' \
            -o -name '*.prl' 2>/dev/null); do
