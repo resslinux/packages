@@ -1,6 +1,6 @@
 pkgbase='curl'
 pkgname=('curl-doc' 'curl-dev' 'libcurl' 'curl')
-pkgver=7.57.0.r129.g65ceb20df
+pkgver=7.58.0.r17.gbd5b9e50c
 pkgrel=1
 pkgdesc='An URL retrival utility and library'
 url='https://curl.haxx.se/'
@@ -22,6 +22,10 @@ pkgver() {
 
 build() {
   cd "${pkgbase}"
+  
+  CFLAGS=${CFLAGS//'-flto=thin'/}
+  CXXFLAGS=${CXXFLAGS//'-flto=thin'/}
+  LDFLAGS=${LDFLAGS//'-flto=thin'/}
   
   ./buildconf
   ./configure --prefix='/usr' \

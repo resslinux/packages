@@ -1,6 +1,6 @@
 pkgbase='libarchive'
 pkgname=('libarchive-doc' 'libarchive-dev' 'libarchive' 'libarchive-tools')
-pkgver=3.3.2.r57.g339356e3
+pkgver=3.3.2.r60.g2d9156bb
 pkgrel=1
 pkgdesc='library that can create and read several streaming archive formats'
 url='https://libarchive.org/'
