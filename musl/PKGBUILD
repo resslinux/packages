@@ -9,14 +9,22 @@ license=('MIT')
 depends_dev=('musl')
 depends=('filesystem')
 source=('git://git.musl-libc.org/musl'
-        '__stack_chk_fail_local.c')
+        '__stack_chk_fail_local.c'
+        'compiler-rt.patch')
 sha256sums=('SKIP'
-            '299a7d75a09de3e2e11e7fb4acc3182e4a14e868093d2f30938fce9bfcff13da')
+            '299a7d75a09de3e2e11e7fb4acc3182e4a14e868093d2f30938fce9bfcff13da'
+            '09c210b95dc429ecd3af16c9689b227019282aec6dffc14497da2ddb74568702')
 
 pkgver() {
   cd "${pkgbase}"
   
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgbase}"
+  
+  patch -Np1 -i "${srcdir}/compiler-rt.patch"
 }
 
 build() {
@@ -31,7 +39,7 @@ build() {
   ${CROSS_COMPILE}ar r "libssp_nonshared.a" "__stack_chk_fail_local.o"
 
   # note: not autotools
-  ./configure --prefix=/lib/musl
+  ./configure --prefix=/usr
 
   make
 }
@@ -41,15 +49,10 @@ package() {
   
   make DESTDIR="${tmpdir}" install
 
-  cp "libssp_nonshared.a" "${tmpdir}/lib/musl/lib/"
+  cp "libssp_nonshared.a" "${tmpdir}/usr/lib/"
   
   install -d "${tmpdir}/bin"
   ln -sf "/lib/ld-musl-${CARCH}.so.1" "${tmpdir}/bin/ldd"
-
-  # remove libintl.h, currently we don't want by default any NLS
-  # and use GNU gettext where needed. the plan is to migrate to
-  # musl gettext() later on as fully as possible.
-  rm "${tmpdir}/lib/musl/include/libintl.h"
 }
 
 package_musl-dev() {
