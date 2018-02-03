@@ -5,7 +5,6 @@ pkgdesc='Init scripts for busybox daemons'
 url='https://github.com/resslinux/busybox-initscripts'
 arch=('any')
 license=('GPL2')
-groups=('base')
 depends=('openrc' 'busybox')
 source=('git://github.com/resslinux/busybox-initscripts.git')
 sha256sums=('SKIP')
