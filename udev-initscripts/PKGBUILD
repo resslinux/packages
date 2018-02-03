@@ -6,7 +6,6 @@ pkgdesc='udev startup scripts for openrc'
 url='https://gitweb.gentoo.org/proj/udev-gentoo-scripts.git/'
 arch=('any')
 license=('GPL2')
-groups=('base')
 depends=('filesystem')
 source=('git://anongit.gentoo.org/proj/udev-gentoo-scripts.git')
 sha256sums=('SKIP')
