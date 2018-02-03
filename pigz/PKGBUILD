@@ -10,13 +10,21 @@ groups=('base')
 depends_doc=()
 depends=('zlib')
 makedepends=('zlib-dev')
-source=('git://github.com/madler/pigz.git')
-sha256sums=('SKIP')
+source=('git://github.com/madler/pigz.git'
+        'makefile.patch')
+sha256sums=('SKIP'
+            '7f818db316ce4260ea2c35c1751dcd4a40801e49a15024582f600c15ed857f64')
 
 pkgver() {
   cd "${pkgbase}"
   
   git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgbase}"
+  
+  patch -Np1 -i "${srcdir}/makefile.patch"
 }
 
 build() {
