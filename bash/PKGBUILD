@@ -1,6 +1,6 @@
 pkgbase='bash'
 pkgname=('bash-doc' 'bash-dev' 'bash')
-pkgver=4.4.r12.gbc007799
+pkgver=4.4.r18.geb78197a
 pkgrel=1
 pkgdesc='The GNU Bourne Again shell'
 url='https://www.gnu.org/software/bash/bash.html'
