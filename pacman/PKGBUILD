@@ -97,7 +97,7 @@ package_makepkg-bash-completion() {
 }
 
 package_makepkg() {
-  depends=('bash')
+  depends=('bash' 'fakeroot' 'libarchive-tools' 'pigz')
   groups=('base-devel')
   backup=('etc/makepkg.conf')
   
