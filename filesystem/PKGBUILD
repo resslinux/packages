@@ -1,5 +1,5 @@
 pkgname='filesystem'
-pkgver=20180121.r1.g37295ef
+pkgver=20180121.r2.g7dd48b9
 pkgrel=1
 pkgdesc='Ress Linux base filesystem'
 url='https://github.com/resslinux/filesystem'
