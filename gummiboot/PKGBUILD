@@ -18,7 +18,7 @@ sha256sums=('SKIP'
             '25ae58b1be238818060a1eb5345b36c960e405d0da2067c7d125a777147dc4cc'
             '1a7e6d884ddba213995aa0d3aee294f434ce9eacc3b39b51fd4742a7cff1f06a'
             '76f4122e3cd3b153728cdf69f4201df8f6aaf56f382af2243c5cf41c1a435668'
-            '9183bc1166f45e2a03072daf45e24a648206516d1c3343fac6f4fa8779f2290a')
+            '4cb5749a66bb3edba210aeb30c6271b75d8d761a51c445567d35c33df55729f6')
 
 pkgver() {
   cd "${pkgbase}"
@@ -35,6 +35,10 @@ prepare() {
 
 build() {
   cd "${pkgbase}"
+  
+  CFLAGS=${CFLAGS//'-flto=thin'/}
+  CXXFLAGS=${CXXFLAGS//'-flto=thin'/}
+  LDFLAGS=${LDFLAGS//'-flto=thin'/}
   
   ./autogen.sh
   ./configure --prefix='/usr' \
