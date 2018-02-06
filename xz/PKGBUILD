@@ -10,6 +10,7 @@ depends_doc=()
 depends_dev=('xz')
 depends_lib=('musl')
 depends=('xz-lib')
+makedepends=('gettext')
 source=(git+https://git.tukaani.org/xz.git)
 sha256sums=('SKIP')
 
