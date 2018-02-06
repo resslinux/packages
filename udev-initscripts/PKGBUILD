@@ -20,4 +20,10 @@ package(){
   cd "${pkgrealname}"
   
   make DESTDIR="${pkgdir}" install
+  
+  install -d "${pkgdir}/etc/runlevels/sysinit/"
+  
+  for i in udev-trigger udev; do
+    ln -s "/etc/init.d/${i}" "${pkgdir}/etc/runlevels/sysinit/${i}"
+  done
 }
