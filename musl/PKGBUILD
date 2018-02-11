@@ -1,6 +1,6 @@
 pkgbase='musl'
 pkgname=('musl-dev' 'musl')
-pkgver=1.1.18.r57.g628cf979
+pkgver=1.1.18.r67.gb3ae7bea
 pkgrel=1
 pkgdesc='Lightweight implementation of C standard library'
 url='https://www.musl-libc.org/'
@@ -13,7 +13,7 @@ source=('git://git.musl-libc.org/musl'
         'compiler-rt.patch')
 sha256sums=('SKIP'
             '299a7d75a09de3e2e11e7fb4acc3182e4a14e868093d2f30938fce9bfcff13da'
-            '09c210b95dc429ecd3af16c9689b227019282aec6dffc14497da2ddb74568702')
+            'f818027345c0fde641b1edd5d0c79b0581293d65e57d59fbf0b0b7c490c6e57b')
 
 pkgver() {
   cd "${pkgbase}"

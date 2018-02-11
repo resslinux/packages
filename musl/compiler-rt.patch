@@ -5,7 +5,7 @@
  # Find compiler runtime library
  test -z "$LIBCC" && tryldflag LIBCC -lgcc && tryldflag LIBCC -lgcc_eh
 -test -z "$LIBCC" && tryldflag LIBCC -lcompiler_rt
-+test -z "$LIBCC" && try_libcc=`$CC -print-file-name=libclang_rt.builtins-$ARCH.a 2>/dev/null` \
++test -z "$LIBCC" && try_libcc=`$CC -print-libgcc-file-name 2>/dev/null` \
 +                 && tryldflag LIBCC "$try_libcc"
  test -z "$LIBCC" && try_libcc=`$CC -print-file-name=libpcc.a 2>/dev/null` \
                   && tryldflag LIBCC "$try_libcc"
