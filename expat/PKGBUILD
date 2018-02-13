@@ -1,4 +1,4 @@
-pkgrealname=libexpat
+pkgrealname='libexpat'
 pkgbase='expat'
 pkgname=('expat-doc' 'expat-dev' 'expat' 'expat-tools')
 pkgver=2.2.5.r41.g41fe2b8
