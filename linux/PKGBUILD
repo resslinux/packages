@@ -1,0 +1,76 @@
+pkgbase='linux'
+pkgname=('linux' 'linux-headers')
+pkgver=4.16.rc1.r188.g1e3510b2b053
+pkgrel=1
+pkgdesc='The linux kernel and modules'
+url='https://www.kernel.org/'
+arch=('x86_64')
+license=('GPL2')
+makedepends=('xmlto' 'kmod' 'inetutils' 'bc' 'libelf')
+source=('git://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git'
+        'config.x86_64'
+        '60-linux.hook')
+sha256sums=('SKIP'
+            '488a5d2d819e48676d4b96e3a6de4f7ba760eef994ad1bc8964b42c47ab65c75'
+            'df7c907d1b466537058873b05961bb9c956009f72fe8ee55ead7e9df434b6be8')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "$pkgbase"
+  
+  cp -f ../config.${CARCH} .config
+  
+  yes "" | make olddefconfig
+  
+  make prepare
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  CFLAGS=${CFLAGS//'-flto=thin'/}
+  CXXFLAGS=${CXXFLAGS//'-flto=thin'/}
+  LDFLAGS=${LDFLAGS//'-flto=thin'/}
+  
+  make bzImage modules
+}
+
+package() {
+  cd "${pkgbase}"
+}
+
+package_linux() {
+  depends=('busybox' 'kmod')
+  groups=('base')
+  
+  cd "${pkgbase}"
+  
+  make INSTALL_MOD_PATH="${pkgdir}" modules_install
+  
+  install -d "${pkgdir}/boot"
+  cp arch/x86/boot/bzImage "${pkgdir}/boot/vmlinuz-${pkgbase}"
+  
+  local _kernver="$(cat include/config/kernel.release)"
+  
+  rm "${pkgdir}"/lib/modules/${_kernver}/{source,build}
+
+  # install pacman hooks
+  sed "s|%KERNVER%|${_kernver}|g" ../60-linux.hook | install -Dm644 /dev/stdin "$pkgdir/usr/share/libalpm/hooks/60-linux.hook"
+}
+
+package_linux-headers() {
+  pkgdesc="Header files and scripts for building modules for linux kernel"
+  
+  cd "$pkgbase"
+  
+  install -d "${pkgdir}/usr"
+  
+  make headers_install ARCH="${CARCH}" INSTALL_HDR_PATH="${pkgdir}/usr"
+  
+  find "${pkgdir}/usr" \( -name .install -o -name ..install.cmd \) -exec rm -f {} \;
+}
