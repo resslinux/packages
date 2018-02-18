@@ -1,0 +1,77 @@
+pkgbase='goofiboot'
+pkgname=('goofiboot-doc' 'goofiboot')
+pkgver=51.r6.g749a221
+pkgrel=1
+pkgdesc='Simple EFI Boot Manager'
+url='https://cgit.freedesktop.org/gummiboot/'
+arch=('x86_64')
+license=('LGPLv2+')
+depends_doc=()
+depends=('filesystem')
+makedepends=('gnu-efi-dev' 'docbook-xsl' 'libxslt')
+source=('git://github.com/solus-cold-storage/goofiboot.git#commit=749a221fbe920da8a4cc69c1a8455742dfc76c70'
+        'loader.conf'
+        'resslinux.conf'
+        'clang.patch'
+        'musl.patch')
+sha256sums=('SKIP'
+            '25ae58b1be238818060a1eb5345b36c960e405d0da2067c7d125a777147dc4cc'
+            '1a7e6d884ddba213995aa0d3aee294f434ce9eacc3b39b51fd4742a7cff1f06a'
+            'f808fc64df808bbaa81b7e6bb33ebf29fa1424425e222b43dfb17e34dd511b21'
+            '1535e9f6634d84a666c0d41160f9251ea4f421c00442b0221a79f0840410d581')
+
+pkgver() {
+  cd "${pkgbase}"
+  
+  git describe --long --tags | sed 's/^v//;s/\([^-]*-g\)/r\1/;s/-/./g'
+}
+
+prepare() {
+  cd "${pkgbase}"
+  
+  patch -Np1 -i "${srcdir}/clang.patch"
+  patch -Np1 -i "${srcdir}/musl.patch"
+}
+
+build() {
+  cd "${pkgbase}"
+  
+  CFLAGS=${CFLAGS//'-flto=thin'/}
+  CXXFLAGS=${CXXFLAGS//'-flto=thin'/}
+  LDFLAGS=${LDFLAGS//'-flto=thin'/}
+  
+  ./autogen.sh
+  ./configure --prefix='/usr' \
+              --disable-blkid
+  
+  make EFI_CFLAGS="${CFLAGS} -std=gnu89"
+}
+
+package() {
+  package-init
+  
+  cd "${pkgbase}"
+  
+  make DESTDIR="${tmpdir}" install
+}
+
+package_goofiboot-doc() {
+  package-doc
+}
+
+package_goofiboot() {
+  backup=('boot/loader/loader.conf'
+          'boot/loader/entries/resslinux.conf')
+  
+  package-base
+  
+  install -d "${pkgdir}/boot/EFI/Boot/"
+  mv "${pkgdir}/usr/lib/goofiboot/goofibootx64.efi" "${pkgdir}/boot/EFI/Boot/bootx64.efi"
+  
+  install -d "${pkgdir}/boot/loader/entries/"
+  
+  install -Dm644 "${srcdir}/loader.conf" "$pkgdir/boot/loader"
+  install -Dm644 "${srcdir}/resslinux.conf" "$pkgdir/boot/loader/entries"
+  
+  rm -rf "$pkgdir/usr"
+}
