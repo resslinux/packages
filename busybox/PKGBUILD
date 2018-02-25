@@ -1,6 +1,6 @@
 pkgbase='busybox'
 pkgname=('busybox-doc' 'busybox')
-pkgver=1.28.0.r152.g3f52d1364
+pkgver=1.28.0.r183.g23286900d
 pkgrel=1
 pkgdesc='Size optimized toolbox of many common UNIX utilities'
 url='https://busybox.net/'
@@ -13,7 +13,7 @@ source=('git://busybox.net/busybox.git'
         'config'
         'clang.patch')
 sha256sums=('SKIP'
-            '38eb4739912f01127d009bbf3e6e679928717b7ffe50473318ec788bc0190db7'
+            '06c55a0599956b3359805477ad569830fb867374847a711a219ab456c45cb60a'
             'e5728d8291834c5ea2f71efc5befb4a3c3987c1a6920065afc701959d432e901')
 
 pkgver() {
