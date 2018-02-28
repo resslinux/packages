@@ -9,7 +9,7 @@ license=('GPL')
 depends_doc=()
 depends_dev=('gettext')
 depends_lib=('musl')
-depends=('musl' 'libgettext')
+depends=('musl' 'libgettext' 'libintl')
 makedepends=('perl' 'ncurses' 'libxml2' 'libunistring' 'coreutils')
 source=('git://git.sv.gnu.org/gettext.git'
         'git://git.sv.gnu.org/gnulib.git'
