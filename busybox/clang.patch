@@ -1,5 +1,5 @@
---- Makefile
-+++ Makefile
+--- a/Makefile
++++ b/Makefile
 @@ -271,8 +271,8 @@
  # Look for make include files relative to root of kernel src
  MAKEFLAGS += --include-dir=$(srctree)
@@ -20,8 +20,8 @@
  LD		= $(CC) -nostdlib
  CPP		= $(CC) -E
  AR		= $(CROSS_COMPILE)ar
---- Makefile.flags
-+++ Makefile.flags
+--- a/Makefile.flags
++++ b/Makefile.flags
 @@ -47,12 +47,11 @@
  # gcc 3.x emits bogus "old style proto" warning on find.c:alloc_action()
  CFLAGS += $(call cc-ifversion, -ge, 0400, -Wold-style-definition)
@@ -37,8 +37,8 @@
  # Defeat .eh_frame bloat (gcc 4.6.3 x86-32 defconfig: 20% smaller busybox binary):
  CFLAGS += $(call cc-option,-fno-unwind-tables,)
  CFLAGS += $(call cc-option,-fno-asynchronous-unwind-tables,)
---- scripts/Makefile.build	2016-12-16 23:53:08.089533229 +0100
-+++ scripts/Makefile.build	2016-12-16 23:52:37.163017866 +0100
+--- a/scripts/Makefile.build
++++ b/scripts/Makefile.build
 @@ -174,7 +174,7 @@
  		| $(GENKSYMS) -a $(ARCH)				\
  		> $(@D)/.tmp_$(@F:.o=.ver);				\
