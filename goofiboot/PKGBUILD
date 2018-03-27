@@ -8,17 +8,21 @@ arch=('x86_64')
 license=('LGPLv2+')
 depends_doc=()
 depends=('filesystem')
-makedepends=('gnu-efi-dev' 'docbook-xsl' 'libxslt')
+makedepends=('elf-toolchain' 'gnu-efi-dev' 'libxslt' 'pkgconf' 'autoconf' 'automake' 'make' 'clang')
 source=('git://github.com/solus-cold-storage/goofiboot.git#commit=749a221fbe920da8a4cc69c1a8455742dfc76c70'
         'loader.conf'
         'resslinux.conf'
         'clang.patch'
-        'musl.patch')
+        'musl.patch'
+        'elf-toolchain.patch'
+        'libxslt.patch')
 sha256sums=('SKIP'
             '25ae58b1be238818060a1eb5345b36c960e405d0da2067c7d125a777147dc4cc'
             '1a7e6d884ddba213995aa0d3aee294f434ce9eacc3b39b51fd4742a7cff1f06a'
             'f808fc64df808bbaa81b7e6bb33ebf29fa1424425e222b43dfb17e34dd511b21'
-            '1535e9f6634d84a666c0d41160f9251ea4f421c00442b0221a79f0840410d581')
+            '1535e9f6634d84a666c0d41160f9251ea4f421c00442b0221a79f0840410d581'
+            '0489766ab3e04b01cb47b4c059141c90ec93a2d9b32845c2ec52f7b645400648'
+            '306738ba63d6a444c9a71b982048c5abc1f0179ac0d93b9b6bb18457a0dabaa0')
 
 pkgver() {
   cd "${pkgbase}"
@@ -30,6 +34,8 @@ prepare() {
   cd "${pkgbase}"
   
   patch -Np1 -i "${srcdir}/clang.patch"
+  patch -Np1 -i "${srcdir}/elf-toolchain.patch"
+  patch -Np1 -i "${srcdir}/libxslt.patch"
   patch -Np1 -i "${srcdir}/musl.patch"
 }
 
@@ -44,7 +50,7 @@ build() {
   ./configure --prefix='/usr' \
               --disable-blkid
   
-  make EFI_CFLAGS="${CFLAGS} -std=gnu89"
+  make V=1 EFI_CFLAGS="${CFLAGS} -std=gnu89"
 }
 
 package() {

@@ -1,0 +1,11 @@
+--- a/Makefile.am
++++ b/Makefile.am
+@@ -65,7 +65,7 @@
+ 
+ if ENABLE_MANPAGES
+ %.8: %.xml
+-	$(AM_V_GEN)$(XSLTPROC) -o $@ --nonet \
++	$(AM_V_GEN)$(XSLTPROC) -o $@ \
+ 	  --stringparam man.output.quietly 1 \
+ 	  --stringparam man.th.extra1.suppress 1 \
+ 	  --stringparam man.authors.section.enabled 0 \
